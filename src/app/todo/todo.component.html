@@ -1,0 +1,10 @@
+<!-- src/app/todo/todo.component.html -->
+<div>
+    <input [(ngModel)]="newTodo" placeholder="Add a new todo">
+    <button (click)="addTodo()">Add</button>
+  
+    <ul>
+      <li *ngFor="let todo of todos">{{ todo }}</li>
+    </ul>
+  </div>
+  
