@@ -1,7 +1,11 @@
-// src/app/todo/todo.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
+interface TodoItem {
+  content: string;
+  completed: boolean;
+}
 
 @Component({
   selector: 'app-todo',
@@ -10,14 +14,28 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule]
 })
-export class TodoComponent {
+export class TodoComponent implements OnInit {
   newTodo: string = '';
-  todos: string[] = [];
+  todos: TodoItem[] = [];
+
+  ngOnInit() {
+    this.todos = JSON.parse(localStorage.getItem('todos') || '[]');
+  }
 
   addTodo() {
     if (this.newTodo) {
-      this.todos.push(this.newTodo);
+      this.todos.push({ content: this.newTodo, completed: false });
+      this.updateLocalStorage();
       this.newTodo = '';
     }
+  }
+
+  toggleComplete(index: number) {
+    this.todos[index].completed = !this.todos[index].completed;
+    this.updateLocalStorage();
+  }
+
+  private updateLocalStorage() {
+    localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 }

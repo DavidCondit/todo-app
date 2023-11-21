@@ -1,10 +1,12 @@
-<!-- src/app/todo/todo.component.html -->
 <div>
     <input [(ngModel)]="newTodo" placeholder="Add a new todo">
     <button (click)="addTodo()">Add</button>
-  
+
     <ul>
-      <li *ngFor="let todo of todos">{{ todo }}</li>
+        <li *ngFor="let todo of todos; let i = index" 
+            [class.completed]="todo.completed"
+            (click)="toggleComplete(i)">
+        {{ todo.content }}
+        </li>
     </ul>
-  </div>
-  
+</div>
